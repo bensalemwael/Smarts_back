@@ -10,13 +10,12 @@ var transporter = nodemailer.createTransport({
 
 module.exports.sendVerifyMail = ((to,verificationToken) => {
 
-    const url = `http://localhost:3000/verify/${verificationToken}`
 
     var mailOptions = {
         from: process.env.EMAIL,
         to: to ,
         subject: 'Sending Email using Node.js',
-        text: url
+        text: verificationToken
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

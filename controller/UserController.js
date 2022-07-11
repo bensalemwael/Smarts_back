@@ -16,6 +16,8 @@ const signUp = async (req, res, next) => {
           res.status(404).json({ message: "user exist" });
         } else {
           const hash = bcrypt.hashSync(req.body.password, 10); //hashed password
+          const code = Math.random().toString(36).slice(-6);
+
           const user = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -26,15 +28,13 @@ const signUp = async (req, res, next) => {
             birthDate: req.body.birthDate,
             sex: req.body.sex,
             adress: req.body.adress,
+            activateAccount : code  
+
           });
           user.save().then((user) => {
-            const verificationToken = jwt.sign(
-                { ID: user._id },
-                process.env.USER_VERIFICATION_TOKEN_SECRET,
-                { expiresIn: "7d" }
-              );
-            // mailer.sendVerifyMail(user.email, verificationToken);
-            res.send("user added  "+verificationToken);
+            
+            mailer.sendVerifyMail(user.email,code);
+            res.send("user added  "+code);
           });
         }
       });
@@ -78,4 +78,25 @@ const signUp = async (req, res, next) => {
     }
   }
 
-  module.exports = {getAll,signUp,signIn}
+  const updateProfile = (req , res , next ) => {
+    const user = req.body;
+    try {
+      User.findByIdAndUpdate({ _id: req.params.id }, user, (err, data) => {
+        res.send("data updated");
+      });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  }
+
+  const activateCode = async (req , res , next ) => {
+   const user =  await User.findOne({activateAccount : req.body.code})
+   if(!user){
+    res.status(400).send("code not exist !")
+   }
+   user.verified = true;
+   user.save();
+   res.status(200).send('Account activated')
+  }
+
+  module.exports = {getAll,signUp,signIn,updateProfile,activateCode}

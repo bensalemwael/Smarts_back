@@ -21,6 +21,7 @@ var User = new Schema(
       default: false,
     },
     resetpassword: String,
+    activateAccount : String ,
   }
 );
 
