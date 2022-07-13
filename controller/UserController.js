@@ -99,4 +99,37 @@ const signUp = async (req, res, next) => {
    res.status(200).send('Account activated')
   }
 
-  module.exports = {getAll,signUp,signIn,updateProfile,activateCode}
+  const updatePassword = async (req , res ,next) =>{
+    const hash = bcrypt.hashSync(req.body.password, 10); //hashed password
+    const user = await User.findOneAndUpdate({email:req.body.email},{password:hash})
+    if(!user)
+    {
+      res.status(400).send("email not existe")
+    }
+    res.status(200).send("password has changed")
+  }
+
+  const passwordCode = async ( req , res , next) => {
+    const code = Math.random().toString(36).slice(-6);
+    const user = await User.findOneAndUpdate({email:req.body.email},{resetpassword:code})
+    if(!user)
+    {
+      res.status(400).send("user not exist")
+    }
+    console.log(user)
+    mailer.sendVerifyMail(user.email,code);
+    res.send("check email")
+
+  }
+
+  const verifyPassword = async ( req , res , next ) => {
+    const user = await User.findOne({email:req.body.email , resetpassword:req.body.code})
+    if(!user)
+    {
+      res.status(400).send("incorrect code")
+    }
+    res.send("correct code")
+  }
+
+
+  module.exports = {getAll,signUp,signIn,updateProfile,activateCode,updatePassword,passwordCode,verifyPassword}
