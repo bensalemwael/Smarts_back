@@ -9,9 +9,10 @@ var Product = new Schema(
         type: String
     }] ,
     photos :  [{
-        type: String
+        type: String,
+        default: undefined
     }] ,
-    price : Float ,
+    price : String ,
     category : { type: Schema.Types.ObjectId, ref: 'categories' },
     description : String ,
     quantity : Number ,

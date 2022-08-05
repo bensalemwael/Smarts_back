@@ -12,4 +12,4 @@ var Category = new Schema(
 
 
 
-module.exports = mongoose.model("caterories", Category);
+module.exports = mongoose.model("categories", Category);
