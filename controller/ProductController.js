@@ -18,7 +18,7 @@ const addProduct = async (req, res, next) => {
         quantity: req.body.quantity,
     })
     product.size = req.body.size
-    req.files.forEach(file => {
+    req.files?.forEach(file => {
         product.photos.push(file.filename)
     });
     await product.save();

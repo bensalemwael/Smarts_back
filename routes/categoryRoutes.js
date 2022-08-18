@@ -5,7 +5,7 @@ var categoryController =  require('../controller/CategoryController')
 
 router.get('',categoryController.getAll)
 router.post('',categoryController.addCategory)
-router.delete('',categoryController.deleteCategory)
+router.delete('/:id',categoryController.deleteCategory)
 router.put('',categoryController.updateCategory)
 
 

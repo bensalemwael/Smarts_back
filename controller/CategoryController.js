@@ -9,8 +9,7 @@ const addCategory = (req, res, next) => {
     category = new Category({
         name: req.body.name
     })
-    category.save().then((category) => {
-        console.log("cqdcsdqv")
+    category.save().then((cat) => {
         res.send("category added !")
     }).catch((error) => {
         res.send(400, "Category exist !");
@@ -19,7 +18,8 @@ const addCategory = (req, res, next) => {
 }
 
 const deleteCategory = async (req, res, next) => { 
-   await Category.findOneAndDelete({name : req.body.name})
+    console.log(req.params.id)
+   await Category.findByIdAndDelete(req.params.id)
    res.send("category deleted !")
 
 }
