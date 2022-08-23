@@ -125,6 +125,9 @@ const verifyPassword = async (req, res, next) => {
   if (!user) {
     return res.status(400).send("incorrect code")
   }
+  const code = Math.random().toString(36).slice(-6);
+  user.resetpassword = code;
+  user.save()
   return res.send("correct code")
 }
 
