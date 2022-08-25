@@ -132,4 +132,21 @@ const verifyPassword = async (req, res, next) => {
 }
 
 
-module.exports = { getAll, signUp, signIn, updateProfile, activateCode, updatePassword, passwordCode, verifyPassword }
+const updatePass = async (req, res, next) => {
+
+  let user = req.user
+  bcrypt.compare(req.body.password, user.password).then((isMatch) => {
+    if (!isMatch)
+      return res.status(400).send("check your password")
+    user.password = req.body.new_password
+    user.save()
+    return res.send("password updated")
+  })
+
+
+}
+
+
+
+
+module.exports = { getAll, signUp, signIn, updateProfile, activateCode, updatePassword, passwordCode, verifyPassword, updatePass }

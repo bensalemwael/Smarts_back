@@ -5,8 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require("mongoose");
 var cors = require('cors')
-
-
+const passport = require("passport");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/userRoutes');
 var categoryRouter = require('./routes/categoryRoutes');
@@ -19,6 +18,9 @@ require("dotenv").config();
 mongoose.connect(process.env.DataBase, () => {
   console.log("Connected to DATABASE");
 });
+
+app.use(passport.initialize());
+require("./security/passport")(passport);
 
 
 // view engine setup
@@ -38,12 +40,12 @@ app.use('/categories', categoryRouter);
 app.use('/products', productRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

@@ -1,17 +1,19 @@
 var express = require('express');
 var router = express.Router();
-var userController =  require('../controller/UserController')
+var userController = require('../controller/UserController')
+const passport = require("passport");
 
 /* GET users listing. */
-router.get('/',userController.getAll);
-router.post('/',userController.signUp);
-router.post('/login',userController.signIn);
-router.post('/updatepassword',userController.updatePassword);
-router.post('/passwordcode',userController.passwordCode);
-router.post('/verifypassword',userController.verifyPassword);
+router.get('/', userController.getAll);
+router.post('/', userController.signUp);
+router.post('/login', userController.signIn);
+router.post('/updatepassword', userController.updatePassword);
+router.post('/passwordcode', userController.passwordCode);
+router.post('/verifypassword', userController.verifyPassword);
 
-router.put('/activate',userController.activateCode);
-router.put('/:id',userController.updateProfile);
+router.put('/activate', userController.activateCode);
+router.put('/:id', userController.updateProfile);
+router.post('/updatepass', passport.authenticate("jwt", { session: false }), userController.updatePass);
 
 
 
