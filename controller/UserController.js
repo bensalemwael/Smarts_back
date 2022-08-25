@@ -132,24 +132,24 @@ const updatePass = async (req, res, next) => {
     user.save()
     return res.send("password updated")
   })
+}
 
+const updateProfile = (req, res, next) => {
+  let user = req.user
 
-  const update_profile = (req, res, next) => {
-    let user = req.user
+  user.firstName = req.body.firstName
+  user.lastName = req.body.lastName
+  user.adress = req.body.adress
+  user.phone = req.body.phone
+  user.sex = req.body.sex
+  user.save()
 
-    user.firstName = req.body.firstName
-    user.lastName = req.body.lastName
-    user.adress = req.body.adress
-    user.phone = req.body.phone
-    user.sex = req.body.sex
-    user.save()
-
-    return res.send("profile updated")
-
-
-  }
+  return res.send("profile updated")
 
 
 }
 
-module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, verifyPassword, updatePass, update_profile }
+
+
+
+module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, verifyPassword, updatePass, updateProfile }
