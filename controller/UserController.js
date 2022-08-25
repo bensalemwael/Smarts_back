@@ -141,7 +141,6 @@ const updateProfile = (req, res, next) => {
   user.lastName = req.body.lastName
   user.adress = req.body.adress
   user.phone = req.body.phone
-  user.sex = req.body.sex
   user.save()
 
   return res.send("profile updated")
