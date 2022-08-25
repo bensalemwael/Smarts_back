@@ -12,8 +12,11 @@ router.post('/passwordcode', userController.passwordCode);
 router.post('/verifypassword', userController.verifyPassword);
 
 router.put('/activate', userController.activateCode);
-router.put('/:id', userController.updateProfile);
-router.post('/updatepass', passport.authenticate("jwt", { session: false }), userController.updatePass);
+
+router.put('/updatepass', passport.authenticate("jwt", { session: false }), userController.updatePass);
+router.put('/update_profile', passport.authenticate("jwt", { session: false }), userController.update_profile);
+
+
 
 
 

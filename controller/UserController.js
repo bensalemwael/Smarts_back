@@ -78,17 +78,6 @@ const signIn = (req, res, next) => {
   }
 }
 
-const updateProfile = (req, res, next) => {
-  const user = req.body;
-  try {
-    User.findByIdAndUpdate({ _id: req.params.id }, user, (err, data) => {
-      res.send("data updated");
-    });
-  } catch (error) {
-    res.status(400).send(error);
-  }
-}
-
 const activateCode = async (req, res, next) => {
   const user = await User.findOne({ activateAccount: req.body.code })
   if (!user) {
@@ -145,9 +134,22 @@ const updatePass = async (req, res, next) => {
   })
 
 
+  const update_profile = (req, res, next) => {
+    let user = req.user
+
+    user.firstName = req.body.firstName
+    user.lastName = req.body.lastName
+    user.adress = req.body.adress
+    user.phone = req.body.phone
+    user.sex = req.body.sex
+    user.save()
+
+    return res.send("profile updated")
+
+
+  }
+
+
 }
 
-
-
-
-module.exports = { getAll, signUp, signIn, updateProfile, activateCode, updatePassword, passwordCode, verifyPassword, updatePass }
+module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, verifyPassword, updatePass, update_profile }
