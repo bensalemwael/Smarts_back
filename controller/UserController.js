@@ -138,7 +138,8 @@ const updatePass = async (req, res, next) => {
   bcrypt.compare(req.body.password, user.password).then((isMatch) => {
     if (!isMatch)
       return res.status(400).send("check your password")
-    user.password = req.body.new_password
+    const hashed_password = bcrypt.hashSync(req.body.new_password, 10); //hashed password
+    user.password = hashed_password
     user.save()
     return res.send("password updated")
   })
