@@ -47,14 +47,14 @@ const signIn = (req, res, next) => {
   try {
     User.findOne({ email: req.body.email }).then((user) => {
       if (!user) {
-        res.status(400).json({ message: "user not found" });
+        return res.status(400).json({ message: "user not found" });
       } else {
         if (!user.verified) {
-          res.status(400).json({ message: "Account not verified" });
+          return res.status(400).json({ message: "Account not verified" });
         }
         bcrypt.compare(req.body.password, user.password).then((isMatch) => {
           if (!isMatch) {
-            res.status(400).json({ message: "incorrect password" });
+            return res.status(400).json({ message: "incorrect password" });
           } else {
             var token = jwt.sign(
               {
@@ -65,7 +65,7 @@ const signIn = (req, res, next) => {
               process.env.PRIVATE_KEY,
               { expiresIn: "24h" }
             );
-            res.status(200).json({
+            return res.status(200).json({
               accessToken: token,
               user: user,
             });
@@ -74,7 +74,7 @@ const signIn = (req, res, next) => {
       }
     });
   } catch (error) {
-    res.status(404).json(error.message);
+    return res.status(404).json(error.message);
   }
 }
 
