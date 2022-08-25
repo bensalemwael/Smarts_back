@@ -148,7 +148,12 @@ const updateProfile = (req, res, next) => {
 
 }
 
+const getUser = (req, res, next) => {
+  let user = req.user
+  return res.send(user)
+}
 
 
 
-module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, verifyPassword, updatePass, updateProfile }
+
+module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, verifyPassword, updatePass, updateProfile, getUser }

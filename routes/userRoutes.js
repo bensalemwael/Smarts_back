@@ -15,6 +15,7 @@ router.put('/activate', userController.activateCode);
 
 router.put('/updatepass', passport.authenticate("jwt", { session: false }), userController.updatePass);
 router.put('/update_profile', passport.authenticate("jwt", { session: false }), userController.updateProfile);
+router.get('/me', passport.authenticate("jwt", { session: false }), userController.getUser);
 
 
 
