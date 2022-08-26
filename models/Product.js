@@ -3,7 +3,9 @@ var Schema = mongoose.Schema;
 
 var Product = new Schema(
   {
-    reference: String,
+    reference: {
+      type: String, unique: true, required: true, dropDups: true
+    },
     name: String,
     size: [{
       type: String
@@ -13,7 +15,7 @@ var Product = new Schema(
       default: undefined
     }],
     price: String,
-    category: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
+    categories: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
     description: String,
     quantity: Number,
   }

@@ -8,21 +8,24 @@ const getAll = async (req, res, next) => {
 }
 
 const addProduct = async (req, res, next) => {
-    console.log(req.files)
     const product = new Product({
         reference: req.body.reference,
         name: req.body.name,
         price: req.body.price,
         description: req.body.description,
-        category: req.body.category,
+        categories: req.body.categories,
         quantity: req.body.quantity,
     })
     product.size = req.body.size
     req.files?.forEach(file => {
         product.photos.push(file.filename)
     });
-    await product.save();
-    res.send("nice")
+    product.save().then((prod) => {
+        res.send("product added !")
+    }).catch((error) => {
+        res.send(400, "product exist !");
+
+    });
 }
 
 const deleteProduct = async (req, res, next) => {
@@ -73,4 +76,11 @@ const deleteImage = async (req, res, next) => {
     product.save()
     res.send("images deleted!")
 }
-module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage }
+
+
+const getProductByCategory = async (req, res, next) => {
+    id_category = req.params.id
+    products = await Product.find({ categories: { "$in": id_category } })
+    return res.send(products)
+}
+module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory }
