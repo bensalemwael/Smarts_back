@@ -28,7 +28,7 @@ const addProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
     const product = await Product.findOneAndDelete({ reference: req.body.reference })
     product.photos.forEach(photo => {
-        var filePath = path.join(__dirname, `/../images/${photo}`);
+        var filePath = path.join(__dirname, `/../public/images/${photo}`);
         fs.unlinkSync(filePath);
     });
     res.send("product removed !")
@@ -63,7 +63,7 @@ const deleteImage = async (req, res, next) => {
         var index = product.photos.indexOf(image);
         if (index !== -1) {
             product.photos.splice(index, 1);
-            var filePath = path.join(__dirname, `/../images/${image}`);
+            var filePath = path.join(__dirname, `/../public/images/${image}`);
 
             fs.unlinkSync(filePath);
 
