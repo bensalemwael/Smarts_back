@@ -8,6 +8,7 @@ const getAll = async (req, res, next) => {
 }
 
 const addProduct = async (req, res, next) => {
+    console.log(req.body.categories)
     const product = new Product({
         reference: req.body.reference,
         name: req.body.name,
@@ -23,6 +24,7 @@ const addProduct = async (req, res, next) => {
     product.save().then((prod) => {
         res.send("product added !")
     }).catch((error) => {
+        console.log(error)
         res.send(400, "product exist !");
 
     });
@@ -83,4 +85,15 @@ const getProductByCategory = async (req, res, next) => {
     products = await Product.find({ categories: { "$in": id_category } })
     return res.send(products)
 }
-module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory }
+
+const searchProducts = async (req, res, next) => {
+    query = req.params.query
+    //products = await Product.find({ "name": { $regex: query } });
+    products = await Product.find({ $or: [{ "name": { $regex: query } }, { "reference": { $regex: query } }] })
+
+    return res.send(products)
+
+}
+
+
+module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory, searchProducts }
