@@ -29,6 +29,7 @@ let upload = multer({ storage, fileFilter });
 router.get('', productController.getAll)
 router.get('/category/:id', productController.getProductByCategory)
 router.get('/search/:query', productController.searchProducts)
+router.post('/whishlist', productController.getProductsWishList)
 
 router.post('', upload.array('uploadedImages', 10), productController.addProduct)
 router.delete('', productController.deleteProduct)

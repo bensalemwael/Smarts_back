@@ -96,10 +96,24 @@ const searchProducts = async (req, res, next) => {
     query = req.params.query
     //products = await Product.find({ "name": { $regex: query } });
     products = await Product.find({ $or: [{ "name": { $regex: query } }, { "reference": { $regex: query } }] })
+    return res.send(products)
+}
+
+const getProductsWishList = async (req, res, next) => {
+    let products = []
+    let ids = req.body.include
+    for (const id of ids) {
+        product = await Product.findOne({ _id: id })
+        //console.log(product)
+        products.push(product)
+    }
+
+    console.log(products)
 
     return res.send(products)
-
 }
 
 
-module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory, searchProducts }
+
+
+module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory, searchProducts, getProductsWishList }
