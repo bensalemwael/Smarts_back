@@ -3,7 +3,7 @@ var fs = require('fs');
 let path = require("path");
 
 const getAll = async (req, res, next) => {
-    const products = await Product.find({});
+    const products = await Product.find({}).populate('categories');
     res.send(products);
 }
 
@@ -40,7 +40,7 @@ const deleteProduct = async (req, res, next) => {
 }
 
 const getProduct = async (req, res, next) => {
-    const product = await Product.findOne({ reference: req.params.reference })
+    const product = await Product.findOne({ reference: req.params.reference }).populate('categories')
     res.send(product)
 }
 
@@ -84,7 +84,7 @@ const getProductByCategory = async (req, res, next) => {
     try {
         id_category = req.params.id
 
-        products = await Product.find({ categories: { "$in": id_category } })
+        products = await Product.find({ categories: { "$in": id_category } }).populate('categories')
         return res.send(products)
     } catch (e) {
         return res.send([])
@@ -95,7 +95,7 @@ const getProductByCategory = async (req, res, next) => {
 const searchProducts = async (req, res, next) => {
     query = req.params.query
     //products = await Product.find({ "name": { $regex: query } });
-    products = await Product.find({ $or: [{ "name": { $regex: query } }, { "reference": { $regex: query } }] })
+    products = await Product.find({ $or: [{ "name": { $regex: query } }, { "reference": { $regex: query } }] }).populate('categories')
     return res.send(products)
 }
 
@@ -103,7 +103,7 @@ const getProductsWishList = async (req, res, next) => {
     let products = []
     let ids = req.body.include
     for (const id of ids) {
-        product = await Product.findOne({ _id: id })
+        product = await Product.findOne({ _id: id }).populate('categories')
         //console.log(product)
         products.push(product)
     }
