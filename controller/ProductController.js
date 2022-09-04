@@ -81,12 +81,15 @@ const deleteImage = async (req, res, next) => {
 
 
 const getProductByCategory = async (req, res, next) => {
-    id_category = req.params.id
-    if (!id_category) {
+    try {
+        id_category = req.params.id
+
+        products = await Product.find({ categories: { "$in": id_category } })
+        return res.send(products)
+    } catch (e) {
         return res.send([])
     }
-    products = await Product.find({ categories: { "$in": id_category } })
-    return res.send(products)
+
 }
 
 const searchProducts = async (req, res, next) => {
