@@ -14,11 +14,12 @@ var Product = new Schema(
       type: String,
       default: undefined
     }],
-    price: String,
+    price: Number,
     categories: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
     description: String,
     quantity: Number,
-  }
+  },
+  { timestamps: true }
 );
 
 

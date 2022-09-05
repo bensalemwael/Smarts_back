@@ -114,6 +114,37 @@ const getProductsWishList = async (req, res, next) => {
 }
 
 
+const sort_price = async (req, res, next) => {
+    try {
+        let key = req.body.key
+        let id_category = req.body.id_category
+        console.log(req.body)
+        if (key == 'price') {
+            let products = await Product.find({ categories: { "$in": id_category } }).sort({ price: 1 }).populate('categories')
+            return res.send(products)
+        } else {
+            let products = await Product.find({ categories: { "$in": id_category } }).sort({ price: -1 }).populate('categories')
+            return res.send(products)
+        }
+    } catch (error) {
+        return res.send("error")
+    }
+}
+
+const sort_latest = async (req, res, next) => {
+    let id_category = req.params.id_category
+    try {
+        let products = await Product.find({ categories: { "$in": id_category } }).sort({ updatedAt: -1 }).populate('categories')
+        return res.send(products)
+
+    } catch (error) {
+        return res.send(error)
+    }
+}
 
 
-module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory, searchProducts, getProductsWishList }
+
+
+
+
+module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory, searchProducts, getProductsWishList, sort_price, sort_latest }
