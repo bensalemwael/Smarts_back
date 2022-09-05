@@ -142,9 +142,21 @@ const sort_latest = async (req, res, next) => {
     }
 }
 
+const getProductsByRange = async (req, res, next) => {
+    min_price = req.body.min_price
+    max_price = req.body.max_price
+    id_category = req.body.id_category
+    try {
+        let products = await Product.find({ categories: { "$in": id_category }, price: { $gt: min_price, $lt: max_price } }).populate('categories')
+        return res.send(products)
+    } catch (error) {
+        return res.send(error)
+    }
+}
 
 
 
 
 
-module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory, searchProducts, getProductsWishList, sort_price, sort_latest }
+
+module.exports = { getAll, addProduct, deleteProduct, getProduct, updateProduct, updateImage, deleteImage, getProductByCategory, searchProducts, getProductsWishList, sort_price, sort_latest, getProductsByRange }

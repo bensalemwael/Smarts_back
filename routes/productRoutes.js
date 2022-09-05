@@ -32,6 +32,7 @@ router.get('/search/:query', productController.searchProducts)
 router.post('/whishlist', productController.getProductsWishList)
 router.post('/sort_price', productController.sort_price)
 router.get('/sort_latest/:id_category', productController.sort_latest)
+router.post('/filter_range', productController.getProductsByRange)
 
 router.post('', upload.array('uploadedImages', 10), productController.addProduct)
 router.delete('', productController.deleteProduct)
