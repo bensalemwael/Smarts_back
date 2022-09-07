@@ -7,9 +7,6 @@ var Product = new Schema(
       type: String, unique: true, required: true, dropDups: true
     },
     name: String,
-    size: [{
-      type: String
-    }],
     photos: [{
       type: String,
       default: undefined
@@ -17,8 +14,9 @@ var Product = new Schema(
     price: Number,
     categories: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
     description: String,
-    quantity: Number,
+    sizes: [{ size: String, quantity: Number }],
   },
+
   { timestamps: true }
 );
 

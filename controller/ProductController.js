@@ -15,9 +15,8 @@ const addProduct = async (req, res, next) => {
         price: req.body.price,
         description: req.body.description,
         categories: req.body.categories,
-        quantity: req.body.quantity,
+        sizes: req.body.sizes,
     })
-    product.size = req.body.size
     req.files?.forEach(file => {
         product.photos.push(file.filename)
     });
