@@ -7,7 +7,8 @@ var Category = new Schema(
       type: String,
       unique: true
     },
-    image: String
+    image: String,
+    size_filter: String
   }
 );
 
