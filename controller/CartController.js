@@ -63,9 +63,21 @@ const removeItemCart = async (req, res, next) => {
     } catch (error) {
         return res.send("error")
     }
-
-
-
 }
 
-module.exports = { getAll, addItemToCart, removeItemCart }
+const getCartByUser = async (req, res, next) => {
+
+    let user_id = req.user._id
+    let total = 0
+    let cart = await Cart.findOne({ user: user_id }).populate('items.product')
+    if (!cart) {
+        return res.send([])
+    } else {
+        for (const item of cart.items) {
+            total += item.product.price * item.quantity
+        }
+        return res.send({ cart: cart, total: total })
+    }
+}
+
+module.exports = { getAll, addItemToCart, removeItemCart, getCartByUser }
