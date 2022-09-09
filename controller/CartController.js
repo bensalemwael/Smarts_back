@@ -1,7 +1,12 @@
 const Cart = require("../models/Cart");
 
 const getAll = async (req, res, next) => {
-    const carts = await Cart.find({});
+    const carts = await Cart.find({}).populate('items.product').populate({
+        path: 'items.product',
+        populate: {
+            path: 'categories'
+        }
+    });
     res.send(carts);
 }
 
@@ -69,7 +74,12 @@ const getCartByUser = async (req, res, next) => {
 
     let user_id = req.user._id
     let total = 0
-    let cart = await Cart.findOne({ user: user_id }).populate('items.product')
+    let cart = await Cart.findOne({ user: user_id }).populate('items.product').populate({
+        path: 'items.product',
+        populate: {
+            path: 'categories'
+        }
+    });
     if (!cart) {
         return res.send([])
     } else {
