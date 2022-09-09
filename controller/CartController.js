@@ -53,8 +53,8 @@ const removeItemCart = async (req, res, next) => {
 
     try {
         let user_id = req.user._id
-        let product = req.body.product
-        let size = req.body.size
+        let product = req.params.product
+        let size = req.params.size
 
         let cart = await Cart.findOne({ user: user_id })
         for (let index = 0; index < cart.items.length; index++) {
