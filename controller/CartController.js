@@ -90,4 +90,16 @@ const getCartByUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getAll, addItemToCart, removeItemCart, getCartByUser }
+const updateQuantityCart = async (req, res, next) => {
+    let user_id = req.user._id
+    let quantity = req.body.quantity
+    let id = req.body.id
+
+    await Cart.findOneAndUpdate({ user: user_id, items: { $elemMatch: { _id: id } } }, { $set: { 'items.$.quantity': quantity } })
+    return res.send("item updated")
+
+
+
+}
+
+module.exports = { getAll, addItemToCart, removeItemCart, getCartByUser, updateQuantityCart }
