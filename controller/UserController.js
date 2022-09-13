@@ -161,7 +161,8 @@ const getUser = (req, res, next) => {
 const deleteUser = async (req, res, next) => {
   try {
     let user_id = req.params.id
-    await User.findOneAndRemove({ _id: user_id })
+    const user = await User.findOne({ _id: user_id })
+    user.remove()
     return res.send("user deleted")
   } catch (error) {
     return res.send("error")
