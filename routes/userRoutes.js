@@ -5,6 +5,8 @@ const passport = require("passport");
 
 /* GET users listing. */
 router.get('/', userController.getAll);
+router.delete('/:id', userController.deleteUser);
+
 router.post('/', userController.signUp);
 router.post('/login', userController.signIn);
 router.post('/updatepassword', userController.updatePassword);

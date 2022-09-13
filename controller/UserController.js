@@ -158,7 +158,11 @@ const getUser = (req, res, next) => {
   return res.send(user)
 }
 
+const deleteUser = async (req, res, next) => {
+  let user_id = req.params.id
+  await User.findOneAndDelete({ _id: user_id })
+  return res.send("user deleted")
+}
 
 
-
-module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, verifyPassword, updatePass, updateProfile, getUser }
+module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, verifyPassword, updatePass, updateProfile, getUser, deleteUser }
