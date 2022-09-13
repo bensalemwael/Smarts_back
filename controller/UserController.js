@@ -79,13 +79,18 @@ const signIn = (req, res, next) => {
 }
 
 const activateCode = async (req, res, next) => {
-  const user = await User.findOne({ activateAccount: req.body.code })
-  if (!user) {
-    res.status(400).send("code not exist !")
+  try {
+    const user = await User.findOne({ activateAccount: req.body.code })
+    if (!user) {
+      return res.status(400).send("code not exist !")
+    }
+    user.verified = true;
+    user.save();
+    return res.status(200).send('Account activated')
+  } catch (error) {
+    return res.status(400).send("error")
   }
-  user.verified = true;
-  user.save();
-  res.status(200).send('Account activated')
+
 }
 
 const updatePassword = async (req, res, next) => {
