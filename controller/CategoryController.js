@@ -38,7 +38,9 @@ const updateCategory = async (req, res, next) => {
 
         }
         category.name = req.body.name
-        category.image = req.file.filename
+        if (req.file) {
+            category.image = req.file.filename
+        }
         category.save()
         return res.send("category updated !")
 
