@@ -32,15 +32,17 @@ const updateCategory = async (req, res, next) => {
         let category = await Category.findOne({ _id: req.body.id })
 
         try {
-            var filePath = path.join(__dirname, `/../public/images/${category.image}`);
-            fs.unlinkSync(filePath);
+            if (req.file) {
+                var filePath = path.join(__dirname, `/../public/images/${category.image}`);
+                fs.unlinkSync(filePath);
+                category.image = req.file.filename
+            }
+
         } catch (error) {
 
         }
         category.name = req.body.name
-        if (req.file) {
-            category.image = req.file.filename
-        }
+
         category.save()
         return res.send("category updated !")
 
