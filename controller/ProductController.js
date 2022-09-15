@@ -31,7 +31,7 @@ const addProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
     try {
-        const product = await Product.findOneAndDelete({ reference: req.body.reference })
+        const product = await Product.findOneAndDelete({ reference: req.params.reference })
         product.photos.forEach(photo => {
             try {
                 var filePath = path.join(__dirname, `/../public/images/${photo}`);
