@@ -29,7 +29,7 @@ let upload = multer({ storage, fileFilter });
 router.get('', categoryController.getAll)
 router.post('', upload.single('image'), categoryController.addCategory)
 router.delete('/:id', categoryController.deleteCategory)
-router.put('', categoryController.updateCategory)
+router.put('', upload.single('image'), categoryController.updateCategory)
 
 
 module.exports = router;

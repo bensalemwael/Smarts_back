@@ -1,5 +1,6 @@
 const Category = require("../models/Category");
-
+var fs = require('fs');
+let path = require("path");
 const getAll = async (req, res, next) => {
     const categories = await Category.find({});
     res.send(categories);
@@ -26,8 +27,31 @@ const deleteCategory = async (req, res, next) => {
 }
 
 const updateCategory = async (req, res, next) => {
-    await Category.findOneAndUpdate({ name: req.body.old_name }, { name: req.body.name })
-    res.send("category updated !")
+
+    try {
+        let category = await Category.findOne({ _id: req.body.id })
+
+        try {
+            var filePath = path.join(__dirname, `/../public/images/${category.image}`);
+            fs.unlinkSync(filePath);
+        } catch (error) {
+
+        }
+        category.name = req.body.name
+        category.image = req.file.filename
+        category.save()
+        return res.send("category updated !")
+
+    } catch (error) {
+
+    }
+
+
+
+
+
+
+
 
 }
 module.exports = { getAll, addCategory, deleteCategory, updateCategory }
