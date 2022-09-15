@@ -30,12 +30,22 @@ const addProduct = async (req, res, next) => {
 }
 
 const deleteProduct = async (req, res, next) => {
-    const product = await Product.findOneAndDelete({ reference: req.body.reference })
-    product.photos.forEach(photo => {
-        var filePath = path.join(__dirname, `/../public/images/${photo}`);
-        fs.unlinkSync(filePath);
-    });
-    res.send("product removed !")
+    try {
+        const product = await Product.findOneAndDelete({ reference: req.body.reference })
+        product.photos.forEach(photo => {
+            try {
+                var filePath = path.join(__dirname, `/../public/images/${photo}`);
+                fs.unlinkSync(filePath);
+            } catch (error) {
+
+            }
+
+        });
+        res.send("product removed !")
+    } catch (error) {
+        res.send("error")
+    }
+
 }
 
 const getProduct = async (req, res, next) => {
