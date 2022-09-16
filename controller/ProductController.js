@@ -8,14 +8,14 @@ const getAll = async (req, res, next) => {
 }
 
 const addProduct = async (req, res, next) => {
-    console.log(req.body.categories)
+    let sizes = JSON.parse(req.body.sizes)
     const product = new Product({
         reference: req.body.reference,
         name: req.body.name,
         price: req.body.price,
         description: req.body.description,
         categories: req.body.categories,
-        sizes: req.body.sizes,
+        sizes: sizes,
     })
     req.files?.forEach(file => {
         product.photos.push(file.filename)
