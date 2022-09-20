@@ -4,6 +4,7 @@ var categoryController = require('../controller/CategoryController')
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 let path = require("path");
+const passport = require("passport");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -27,9 +28,9 @@ let upload = multer({ storage, fileFilter });
 
 
 router.get('', categoryController.getAll)
-router.post('', upload.single('image'), categoryController.addCategory)
-router.delete('/:id', categoryController.deleteCategory)
-router.put('', upload.single('image'), categoryController.updateCategory)
+router.post('', passport.authenticate("jwt", { session: false }), upload.single('image'), categoryController.addCategory)
+router.delete('/:id', passport.authenticate("jwt", { session: false }), categoryController.deleteCategory)
+router.put('', passport.authenticate("jwt", { session: false }), upload.single('image'), categoryController.updateCategory)
 
 
 module.exports = router;

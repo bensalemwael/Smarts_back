@@ -4,8 +4,8 @@ var userController = require('../controller/UserController')
 const passport = require("passport");
 
 /* GET users listing. */
-router.get('/', userController.getAll);
-router.delete('/:id', userController.deleteUser);
+router.get('/', passport.authenticate("jwt", { session: false }), userController.getAll);
+router.delete('/:id', passport.authenticate("jwt", { session: false }), userController.deleteUser);
 
 router.post('/', userController.signUp);
 router.post('/login', userController.signIn);

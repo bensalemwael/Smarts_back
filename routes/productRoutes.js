@@ -34,11 +34,11 @@ router.post('/sort_price', productController.sort_price)
 router.get('/sort_latest/:id_category', productController.sort_latest)
 router.post('/filter_range', productController.getProductsByRange)
 
-router.post('', upload.array('uploadedImages', 10), productController.addProduct)
+router.post('', passport.authenticate("jwt", { session: false }), upload.array('uploadedImages', 10), productController.addProduct)
 router.get('/:reference', productController.getProduct)
-router.put('', productController.updateProduct)
-router.put('/image', upload.array('uploadedImages', 10), productController.updateImage)
-router.delete('/image', productController.deleteImage)
-router.delete('/:reference', productController.deleteProduct)
+router.put('', passport.authenticate("jwt", { session: false }), productController.updateProduct)
+router.put('/image', passport.authenticate("jwt", { session: false }), upload.array('uploadedImages', 10), productController.updateImage)
+router.delete('/image', passport.authenticate("jwt", { session: false }), productController.deleteImage)
+router.delete('/:reference', passport.authenticate("jwt", { session: false }), productController.deleteProduct)
 
 module.exports = router;
