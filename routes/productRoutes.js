@@ -4,6 +4,7 @@ var productController = require('../controller/ProductController')
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 let path = require("path");
+const passport = require("passport");
 
 
 const storage = multer.diskStorage({
