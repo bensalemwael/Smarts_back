@@ -28,7 +28,8 @@ const signUp = async (req, res, next) => {
           birthDate: req.body.birthDate,
           sex: req.body.sex,
           adress: req.body.adress,
-          activateAccount: code
+          activateAccount: code,
+          role: "client"
 
         });
         user.save().then((user) => {
@@ -171,5 +172,20 @@ const deleteUser = async (req, res, next) => {
 
 }
 
+const beComeAdmin = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate({_id:req.body.id},{role:"admin"})
+    return res.send("Role updated !")
 
-module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, verifyPassword, updatePass, updateProfile, getUser, deleteUser }
+  } catch (error) {
+
+        return res.status(400).send("user not found !")
+
+  }
+
+}
+
+
+
+module.exports = { getAll, signUp, signIn, activateCode, updatePassword, passwordCode, 
+                    verifyPassword, updatePass, updateProfile, getUser, deleteUser , beComeAdmin }
