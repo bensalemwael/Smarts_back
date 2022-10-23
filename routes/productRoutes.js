@@ -39,7 +39,7 @@ router.post('', passport.authenticate("jwt", { session: false }), upload.array('
 router.get('/:reference', productController.getProduct)
 router.put('', passport.authenticate("jwt", { session: false }), productController.updateProduct)
 router.put('/image', passport.authenticate("jwt", { session: false }), upload.array('uploadedImages', 10), productController.updateImage)
-router.put('/delete_image', productController.deleteImage)
+router.put('/delete_image', passport.authenticate("jwt", { session: false }), productController.deleteImage)
 router.delete('/:reference', passport.authenticate("jwt", { session: false }), productController.deleteProduct)
 
 module.exports = router;
