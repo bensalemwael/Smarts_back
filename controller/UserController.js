@@ -179,7 +179,7 @@ const beComeAdmin = async (req, res, next) => {
 
   } catch (error) {
 
-        return res.status(400).send("user not found !")
+    return res.status(400).send("user not found !")
 
   }
 
